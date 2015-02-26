@@ -1,14 +1,22 @@
 var _ = require('underscore');
 var Movie = require('../models/movie');
+var Comment = require('../models/comment');
 
 // detail page
 exports.detail = function(req, res) {
 	var id = req.params.id;
 
 	Movie.findById(id, function(err, movie) {
-		res.render('detail', {
-			title: 'imooc ' + movie.title,
-			movie: movie
+		Comment.find({movie: id})
+			.populate('from', 'name')
+			.populate('reply.from reply.to', 'name')
+			.exec(function(err, comments) {
+				console.log(comments);
+				res.render('detail', {
+					title: 'imooc ' + movie.title,
+					movie: movie,
+					comments: comments
+				});
 		});
 	});
 }
