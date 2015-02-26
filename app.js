@@ -12,7 +12,7 @@ var dbUrl = 'mongodb://localhost/imooc';
 
 mongoose.connect(dbUrl);
 
-app.set('views', './views/pages');	// 设置视图的根目录
+app.set('views', './app/views/pages');	// 设置视图的根目录
 app.set('view engine', 'jade');	// 设置默认模板引擎
 app.use(bodyParser.urlencoded({ extended: true }));	// 将表单的数据格式化
 // parse application/json
