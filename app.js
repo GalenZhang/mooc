@@ -1,4 +1,5 @@
 var express = require('express');
+var logger = require('morgan');
 var path = require('path');
 var mongoose = require('mongoose');
 var session = require('express-session'); 
@@ -27,6 +28,12 @@ app.use(session({
 	})
 }));
 
+if('development' === app.get('env')){
+	app.set('showStackError', true);
+	app.use(logger(':method :url :status'));	// 输出http 请求信息
+	app.locals.pretty = true;	// 格式化源代码
+	mongoose.set('debug', true);	// 输出mongo SQL
+}
 require('./config/routes')(app);
 
 app.use(express.static(path.join(__dirname, 'public')));
