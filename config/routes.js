@@ -19,29 +19,35 @@ module.exports = function(app) {
 	// signin
 	app.post('/user/signin', User.signin);
 
+	// show signin
+	app.get('/signin', User.showSignin);
+
+	// show signup
+	app.get('/signup', User.showSignup);
+
 	// logout
 	app.get('/logout', User.logout);
 
 	// userlist page
-	app.get('/admin/userlist', User.list);
+	app.get('/admin/user/list', User.signinRequired, User.adminRequired, User.list);
 
 
 	// detail page
 	app.get('/movie/:id', Movie.detail);
 
 	// admin new page
-	app.get('/admin/new', Movie.new);
+	app.get('/admin/movie/new', User.signinRequired, User.adminRequired, Movie.new);
 
 	// admin update movie
-	app.get('/admin/update/:id', Movie.update);
+	app.get('/admin/movie/update/:id', User.signinRequired, User.adminRequired, Movie.update);
 
 	// admin post movie
-	app.post('/admin/movie', Movie.save);
+	app.post('/admin/movie', User.signinRequired, User.adminRequired, Movie.save);
 
 	// list page
-	app.get('/admin/list', Movie.list);
+	app.get('/admin/movie/list', User.signinRequired, User.adminRequired, Movie.list);
 
 	// list delete movie
-	app.delete('/admin/list', Movie.del);
+	app.delete('/admin/movie/list', User.signinRequired, User.adminRequired, Movie.del);
 }
 

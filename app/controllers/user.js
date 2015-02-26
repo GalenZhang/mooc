@@ -10,7 +10,7 @@ exports.signup = function(req, res) {
 		}
 
 		if (user) {
-			res.redirect("/")
+			res.redirect("/signin")
 		} 
 		else {
 			var user = new User(_user);
@@ -19,7 +19,7 @@ exports.signup = function(req, res) {
 					console.log(err);
 				}
 
-				res.redirect("/admin/userlist");
+				res.redirect("/");
 			})
 		}
 	})
@@ -37,7 +37,7 @@ exports.signin = function(req, res) {
 		}
 
 		if (!user) {
-			return res.redirect("/");
+			return res.redirect("/signup");
 		} 
 
 		user.comparePassword(password, function(err, isMatch) {
@@ -50,7 +50,7 @@ exports.signin = function(req, res) {
 				res.redirect("/");
 			}
 			else {
-				console.log("Password is not matched");
+				return res.redirect("/signin");
 			}
 		})
 	})
@@ -75,4 +75,38 @@ exports.list = function(req, res) {
 			users: users
 		});
 	})
+}
+
+// user showSignin
+exports.showSignin = function(req, res) {
+	res.render('signin', {
+		title: '登陆页面'
+	});
+}
+
+// user showSignup
+exports.showSignup = function(req, res) {
+	res.render('signup', {
+		title: '注册页面'
+	});
+}
+
+// midware for user
+exports.signinRequired = function(req, res, next) {
+	var user = req.session.user;
+
+	if (!user) {
+		return res.redirect('/signin');
+	}
+	next();
+}
+
+exports.adminRequired = function(req, res, next) {
+	var user = req.session.user;
+	console.log(user);
+
+	if (user.role <= 10) {
+		return res.redirect('/signin');
+	}
+	next();
 }
