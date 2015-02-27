@@ -6,6 +6,7 @@ var session = require('express-session');
 var mongoStore = require('connect-mongo')(session);
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser'); 
+var multiparty = require('connect-multiparty'); 
 var port = process.env.PORT || 3000;   // 从环境中取到的参数，windows 中需要使用set PORT=4000
 var app = express();
 var dbUrl = 'mongodb://localhost/imooc';
@@ -18,6 +19,7 @@ app.use(bodyParser.urlencoded({ extended: true }));	// 将表单的数据格式�
 // parse application/json
 app.use(bodyParser.json());
 app.use(cookieParser());
+app.use(multiparty());
 app.use(session({
 	secret: 'imooc',
 	resave:false,

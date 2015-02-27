@@ -4,8 +4,10 @@
   "description": "imooc movie",
   "main": "app.js",
   "dependencies": {
+    "bcrypt": "^0.8.1",
     "body-parser": "^1.9.3",
     "connect-mongo": "^0.4.2",
+    "connect-multiparty": "^1.2.5",
     "cookie-parser": "^1.3.4",
     "express": "^4.10.2",
     "express-session": "^1.10.3",
