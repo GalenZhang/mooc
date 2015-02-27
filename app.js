@@ -1,6 +1,7 @@
 var express = require('express');
 var logger = require('morgan');
 var path = require('path');
+var fs = require('fs');
 var mongoose = require('mongoose');
 var session = require('express-session'); 
 var mongoStore = require('connect-mongo')(session);
@@ -12,6 +13,23 @@ var app = express();
 var dbUrl = 'mongodb://localhost/imooc';
 
 mongoose.connect(dbUrl);
+
+// models loading
+var models_path = __dirname + '/app/models';
+var walk = function(path) {
+	fs
+		.readdirSync(path)
+		.forEach(function(file) {
+			var newPath = path + '/' + file;
+			var stat = fs.statSync(newPath);
+
+			if (stat.isFile()) {
+				if (/(.*)\.(js|coffee)/.test(file)) {
+					require(newPath);
+				}
+			}
+		})
+}
 
 app.set('views', './app/views/pages');	// 设置视图的根目录
 app.set('view engine', 'jade');	// 设置默认模板引擎
