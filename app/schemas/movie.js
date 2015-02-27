@@ -11,6 +11,7 @@ var MovieSchema = new mongoose.Schema({
 	summary: String,
 	flash: String,
 	poster: String,
+	pv: {type: Number, default: 0},
 	category: {type: ObjectId, ref: 'Category'},
 	meta: {
 		createAt: {

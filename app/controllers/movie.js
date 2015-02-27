@@ -9,6 +9,12 @@ var path = require('path');
 exports.detail = function(req, res) {
 	var id = req.params.id;
 
+	Movie.update({_id: id}, {$inc: {pv: 1}}, function(err) {
+		if (err){
+			console.log(err);
+		}
+	});
+
 	Movie.findById(id, function(err, movie) {
 		Comment.find({movie: id})
 			.populate('from', 'name')
@@ -57,7 +63,6 @@ exports.savePoster = function(req, res, next) {
 	var posterData = req.files.uploadPoster;
 	var filePath = posterData.path;
 	var originalFilename = posterData.originalFilename;
-	console.log(req.files);
 
 	if (originalFilename) {
 		fs.readFile(filePath, function(err, data) {
@@ -141,16 +146,18 @@ exports.save = function(req, res) {
 
 // list page
 exports.list = function(req, res) {
-	Movie.fetch(function (err, movies) {
-		if (err) {
-			console.log(err);
-		}
+	Movie.find({})
+		.populate('category', 'name')
+		.exec(function (err, movies) {
+			if (err) {
+				console.log(err);
+			}
 
-		res.render('list', {
-			title: 'imooc 列表页',
-			movies: movies
-		});
-	})
+			res.render('list', {
+				title: 'imooc 列表页',
+				movies: movies
+			});
+		})
 }
 
 // list delete movie
