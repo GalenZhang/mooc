@@ -52,7 +52,7 @@ if('development' === app.get('env')){
 	app.set('showStackError', true);
 	app.use(logger(':method :url :status'));	// 输出http 请求信息
 	app.locals.pretty = true;	// 格式化源代码
-	mongoose.set('debug', true);	// 输出mongo SQL
+	//mongoose.set('debug', true);	// 输出mongo SQL
 }
 require('./config/routes')(app);
 
