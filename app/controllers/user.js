@@ -10,16 +10,16 @@ exports.signup = function(req, res) {
 		}
 
 		if (user) {
-			res.redirect("/signin")
+			res.redirect('/signin');
 		} 
 		else {
-			var user = new User(_user);
+			user = new User(_user);
 			user.save(function(err, user) {
 				if (err) {
 					console.log(err);
 				}
 
-				res.redirect("/");
+				res.redirect('/');
 			})
 		}
 	})
@@ -37,7 +37,7 @@ exports.signin = function(req, res) {
 		}
 
 		if (!user) {
-			return res.redirect("/signup");
+			return res.redirect('/signup');
 		} 
 
 		user.comparePassword(password, function(err, isMatch) {
@@ -47,10 +47,10 @@ exports.signin = function(req, res) {
 
 			if (isMatch) {
 				req.session.user = user;
-				res.redirect("/");
+				res.redirect('/');
 			}
 			else {
-				return res.redirect("/signin");
+				return res.redirect('/signin');
 			}
 		})
 	})

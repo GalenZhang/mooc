@@ -1,6 +1,5 @@
 var _ = require('underscore');
 var Movie = require('../models/movie');
-var Comment = require('../models/comment');
 var Category = require('../models/category');
 
 // admin new page

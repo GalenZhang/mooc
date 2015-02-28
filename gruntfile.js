@@ -15,6 +15,37 @@ module.exports = function(grunt){
 				}
 			}
 		},
+
+		jshint: {
+			options: {
+				jshintrc: '.jshintrc',
+				ignores: ['public/libs/**/*.js']
+			},
+			all: ['public/js/*.js', 'test/**/*.js', 'app/**/*.js']
+		},
+
+		less: {
+			development: {
+				options: {
+					compress: true,
+					yuicompress: true,
+					optimization: 2
+				},
+				files: {
+					'public/build/index.css': 'public/less/index.less'
+				}
+			}
+		},
+
+		uglify: {
+			development: {
+				files: {
+					'public/build/admin.min.js': 'public/js/admin.js',
+					'public/build/detail.min.js': ['public/js/detail.js']
+				}
+			}
+		},
+
 		nodemon: {
 			dev: {
 				script: 'app.js',
@@ -42,7 +73,8 @@ module.exports = function(grunt){
 		},
 
 		concurrent: {
-			tasks: ['nodemon', 'watch'],
+			//tasks: ['nodemon', 'watch', 'less', 'uglify', 'jshint'],
+			tasks: ['nodemon', 'watch', 'jshint'],
 			options: {
 				logConcurrentOutput: true
 			}
@@ -53,6 +85,9 @@ module.exports = function(grunt){
 	grunt.loadNpmTasks('grunt-nodemon');	// 实时监听app.js 文件变化
 	grunt.loadNpmTasks('grunt-concurrent');
 	grunt.loadNpmTasks('grunt-mocha-test');
+	grunt.loadNpmTasks('grunt-contrib-less');
+	grunt.loadNpmTasks('grunt-contrib-uglify');
+	grunt.loadNpmTasks('grunt-contrib-jshint');
 
 	grunt.option('force', true); // 开发时使用，避免因语法错误，中断了整个服务
 	grunt.registerTask('default', ['concurrent']);
